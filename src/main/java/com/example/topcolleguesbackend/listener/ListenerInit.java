@@ -10,9 +10,13 @@ import com.example.topcolleguesbackend.init.Initialiseur;
 @Component
 public class ListenerInit {
 
+	/** init : Initialiseur */
 	@Autowired
 	private Initialiseur init;
 	
+	/**
+	 * Listener de fin d'instanciation de context
+	 */
 	@EventListener({ ContextRefreshedEvent.class })
 	void contextRefreshedEvent() {
 		init.init();

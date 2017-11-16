@@ -8,17 +8,29 @@ import javax.persistence.Id;
 @Entity
 public class Collegue {
 
+	/** id : int */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	/** nom : String */
 	private String nom;
+	/** urlImg : String */
 	private String urlImg;
+	/** score : int */
 	private int score;
 
+	/**
+	 * Constructeur hibernate
+	 */
 	public Collegue() {
 		super();
 	}
 
+	/**Constructeur
+	 * @param nom
+	 * @param urlImg
+	 * @param score
+	 */
 	public Collegue(String nom, String urlImg, int score) {
 		this.nom = nom;
 		this.urlImg = urlImg;

@@ -11,9 +11,13 @@ import com.example.topcolleguesbackend.repository.CollegueRepository;
 @Service
 public class Initialiseur {
 
+	/** colRep : CollegueRepository */
 	@Autowired
 	private CollegueRepository colRep;
 
+	/**
+	 * Jeu de données de base
+	 */
 	public void init() {
 		Stream.of(new Collegue("Flo", "https://avatars2.githubusercontent.com/u/32134408?s=460&v=4", 100),
 				new Collegue("Ben",

@@ -21,14 +21,22 @@ import com.example.topcolleguesbackend.repository.CollegueRepository;
 @CrossOrigin(origins = "http://localhost:4200")
 public class CollegueController {
 
+	/** colRep : CollegueRepository */
 	@Autowired
 	CollegueRepository colRep;
 
+	/**Méthode get de listage des collegues
+	 * @return
+	 */
 	@GetMapping("")
 	public List<Collegue> listerCollegue() {
 		return this.colRep.findAll();
 	}
 
+	/**Méthode post d'ajout de collegue
+	 * @param col
+	 * @return
+	 */
 	@PostMapping("")
 	public Collegue ajouter(@RequestBody Collegue col) {
 		Optional<Collegue> optCol = this.colRep.findAll().stream().filter(collegue -> collegue.getNom() == col.getNom())
@@ -39,9 +47,16 @@ public class CollegueController {
 		return this.colRep.findOne(col.getId());
 	}
 
+	/**Méthode put de modification du score
+	 * @param col
+	 * @param id
+	 * @return
+	 */
 	@PutMapping("/{id}/score")
 	public Collegue update(@RequestBody Collegue col, @PathVariable int id) {
-		this.colRep.save(col);
+		Collegue oldCol = this.colRep.findOne(id);
+		oldCol.setScore(col.getScore());
+		this.colRep.save(oldCol);
 		return this.colRep.findOne(id);
 	}
 
