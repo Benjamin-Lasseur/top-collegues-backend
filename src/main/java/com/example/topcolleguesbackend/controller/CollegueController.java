@@ -20,7 +20,7 @@ import com.example.topcolleguesbackend.repository.CollegueRepository;
 
 @RestController
 @RequestMapping("/collegues")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "https://dist-jfhmmnscua.now.sh" })
 public class CollegueController {
 
 	/** colRep : CollegueRepository */
@@ -67,7 +67,7 @@ public class CollegueController {
 	 * @return
 	 */
 	@PutMapping("/{id}/score")
-	public Collegue update(@RequestBody Map<String,String> avis, @PathVariable int id) {
+	public Collegue update(@RequestBody Map<String, String> avis, @PathVariable int id) {
 		Collegue oldCol = this.colRep.findOne(id);
 		switch (avis.get("avis")) {
 		case "aimer":
