@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.topcolleguesbackend.entity.Collegue;
+import com.example.topcolleguesbackend.entity.Vote;
 import com.example.topcolleguesbackend.repository.CollegueRepository;
+import com.example.topcolleguesbackend.repository.VoteRepository;
 
 @RestController
 @RequestMapping("/collegues")
@@ -26,6 +27,8 @@ public class CollegueController {
 	/** colRep : CollegueRepository */
 	@Autowired
 	CollegueRepository colRep;
+	@Autowired
+	VoteRepository voteRep;
 
 	/**
 	 * Méthode get de listage des collegues
@@ -36,6 +39,7 @@ public class CollegueController {
 	public List<Collegue> listerCollegue() {
 		return this.colRep.findAll();
 	}
+	
 
 	@GetMapping("/{id}/detail")
 	public Collegue getBanqueCollaborateur(@PathVariable Integer id) {
@@ -50,7 +54,7 @@ public class CollegueController {
 	 */
 	@PostMapping("")
 	public Collegue ajouter(@RequestBody Collegue col) {
-		Optional<Collegue> optCol = this.colRep.findAll().stream().filter(collegue -> collegue.getNom() == col.getNom())
+		Optional<Collegue> optCol = this.colRep.findAll().stream().filter(collegue -> collegue.getNom().toLowerCase() == col.getNom().toLowerCase())
 				.findAny();
 		if (!optCol.isPresent()) {
 			this.colRep.save(col);
@@ -72,9 +76,11 @@ public class CollegueController {
 		switch (avis.get("avis")) {
 		case "aimer":
 			oldCol.setScore(oldCol.getScore() + 10);
+			this.voteRep.save(new Vote(oldCol, true));
 			break;
 		case "detester":
 			oldCol.setScore(oldCol.getScore() - 5);
+			this.voteRep.save(new Vote(oldCol, false));
 			break;
 		default:
 		}
